@@ -14,7 +14,9 @@ else
 endif
 
 # set variables
-OPT_LEVEL       ?= O2
+OPT_LEVEL       ?= O0
+# OPT_LEVEL       ?= O1
+# OPT_LEVEL       ?= O2
 
 # extra security features (comment them out if not needed)
 
@@ -40,6 +42,7 @@ OPT_LEVEL       ?= O2
 #enable_aarch64_mte             = yes
 #enable_aarch64_pa              = yes
 #enable_aarch64_bti             = yes
+#enable_aarch64_memtag          = yes
 
 # define paths and objects
 ifeq ($(OSType),Windows_NT)
@@ -133,11 +136,13 @@ else
   log-path      := trace-log
 
   #compiler
-  ifeq ($(OSType),Darwin)
-    CXX         := clang++
-  else
-    CXX         := g++
-  endif
+  # ifeq ($(OSType),Darwin)
+  #   CXX         := clang++
+  # else
+  #   CXX         := g++
+  # endif
+  CXX          := clang++
+  
   ASM           := as
   CLIBAPI       := posix
   OBJDUMP       := objdump
@@ -255,6 +260,15 @@ endif
 ifdef enable_aarch64_bti
   CXXFLAGS := -fuse-ld=lld $(CXXFLAGS) -march=armv8.5-a -mbranch-protection=bti
   OBJECT_CXXFLAGS += -march=armv8.5-a -mbranch-protection=bti
+endif
+
+ifdef enable_aarch64_memtag
+  MEMTAG_FLAG := memtag
+  # MEMTAG_FLAG := memtag-stack
+  # MEMTAG_FLAG := memtag-heap
+  # MEMTAG_FLAG := memtag-globals
+  CXXFLAGS := -fuse-ld=lld $(CXXFLAGS) -march=armv8.5-a+memtag -fsanitize=$(MEMTAG_FLAG)
+  OBJECT_CXXFLAGS += -march=armv8.5-a+memtag -fsanitize=$(MEMTAG_FLAG)
 endif
 
 # define cases
