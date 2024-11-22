@@ -65,7 +65,7 @@
 #define VAL_64O    VAL_32O, VAL_32O
 
 #ifndef BUFFER_SIZE
-    #define BUFFER_SIZE 8
+    #define BUFFER_SIZE 16
 #endif
 
 #if  !defined(BUFFER_VAL_UNDERFLOW) && !defined(BUFFER_VAL_MID) && !defined(BUFFER_VAL_OVERFLOW)
