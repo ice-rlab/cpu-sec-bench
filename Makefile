@@ -6,7 +6,7 @@ OSType          ?= $(shell echo %OS%)
 ifeq ($(OSType),Windows_NT)
   ARCH          ?= x86_64
 else
-  ARCH          ?= $(shell arch)
+  ARCH          ?= $(shell busybox arch)
   OSType        := $(shell uname)
   ifeq ($(ARCH),arm64)
     ARCH        := aarch64
@@ -17,6 +17,7 @@ endif
 OPT_LEVEL       ?= O0
 # OPT_LEVEL       ?= O1
 # OPT_LEVEL       ?= O2
+# OPT_LEVEL	?= O3
 
 # extra security features (comment them out if not needed)
 
@@ -42,7 +43,7 @@ OPT_LEVEL       ?= O0
 #enable_aarch64_mte             = yes
 #enable_aarch64_pa              = yes
 #enable_aarch64_bti             = yes
-#enable_aarch64_memtag          = yes
+enable_aarch64_memtag          = yes
 
 # define paths and objects
 ifeq ($(OSType),Windows_NT)
