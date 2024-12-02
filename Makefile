@@ -148,7 +148,7 @@ else
   CLIBAPI       := posix
   OBJDUMP       := objdump
 
-  CXXFLAGS_BASE := -I./lib -std=c++11 -Wall
+  CXXFLAGS_BASE := -I./lib -std=c++11 -Wall -g
   ifdef BUFFER_SIZE
 		CXXFLAGS_BASE += -DBUFFER_SIZE=$(BUFFER_SIZE)
   endif
